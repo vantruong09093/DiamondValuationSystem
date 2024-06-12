@@ -1,19 +1,16 @@
-
-import {Routes, Route, BrowserRouter as Router} from 'react-router-dom'
-import { AuthProvider } from './Context/AuthContext'
-import Login from './Views/Login'
+import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import { AuthProvider } from "./Context/AuthContext";
+import Login from "./Views/Login";
 function App() {
-
-
   return (
     <Router>
-      <Routes>
-        <AuthProvider>
-          <Route path="/" element={<Login />} />
-        </AuthProvider>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Login/>}/>
+        </Routes>
+      </AuthProvider>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
