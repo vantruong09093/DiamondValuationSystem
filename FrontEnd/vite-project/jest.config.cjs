@@ -6,7 +6,7 @@ module.exports = {
     // jest.config.js
 // jest.config.js
 module.exports = {
-  setupFiles: ["<rootDir>/firebaseSetup.js"],
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  
+  setupFilesAfterEnv: ["<rootDir>/firebaseSetup.js"],
   testPathIgnorePatterns: ["/node_modules/", "<rootDir>/firebaseSetup.js"],
 };
