@@ -6,7 +6,7 @@ import DashboardRoutes from "../src/Routes/Dashboard";
 
 function App() {
   const [isSidebar, setIsSidebar] = useState(true);
-
+// private route later
   return (
     <AuthProvider>
       <Router>
