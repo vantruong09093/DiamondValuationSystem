@@ -21,7 +21,7 @@ const DIAMOND_LIST = [
     id: 3,
     name: "Pear Cut",
     carat: 1.5,
-    img: "src/Views/HomePageassets/3.avif",
+    img: "src/Views/HomePage/assets/3.avif",
   },
   {
     id: 4,
