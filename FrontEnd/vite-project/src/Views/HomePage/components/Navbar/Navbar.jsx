@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../components/AuthContext/AuthContext";
+import { useAuth } from "../../../../Context/AuthContext";
 import Login from "../../components/Login/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 function Navbar({ menu, setMenu }) {
@@ -32,7 +32,7 @@ function Navbar({ menu, setMenu }) {
     color: "#49557e",
     fontSize: "20px",
     marginRight: "185px",
-    marginTop: "10px",
+    marginTop: "10px", 
   };
 
   const activeStyle = {
