@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
+
+import { useState } from 'react';
 import DashboardLayout from "../Views/dashboard/Layout/DashboardLayout";
 import Dashboard from "../Views/dashboard/scenes/dashboard";
 import Team from "../Views/dashboard/scenes/team";
@@ -12,7 +14,8 @@ import FAQ from "../Views/dashboard/scenes/faq";
 import Geography from "../Views/dashboard/scenes/geography";
 import Calendar from "../Views/dashboard/scenes/calendar/calendar";
 
-const DashboardRoutes = ({ isSidebar, setIsSidebar }) => {
+const DashboardRoutes = () => {
+  const [isSidebar, setIsSidebar] = useState(true);
   return (
     <Routes>
       <Route path="/" element={<DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar} />}>
