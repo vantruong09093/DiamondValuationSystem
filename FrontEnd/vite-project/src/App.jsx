@@ -14,7 +14,6 @@ function App() {
         <Routes>
           <Route path="/dashboard/*" element={<DashboardRoutes isSidebar={isSidebar} setIsSidebar={setIsSidebar} />} />
           <Route path="/*" element={<HomeRoutes />} />
-          
         </Routes>
       </Router>
       <Footer />
