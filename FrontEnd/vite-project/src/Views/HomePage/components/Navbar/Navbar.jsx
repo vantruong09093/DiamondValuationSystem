@@ -1,32 +1,12 @@
-import React, { useState, useContext } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../components/AuthContext/AuthContext";
-import Button from "react-bootstrap/Button";
+import { useAuth } from "../../components/AuthContext/AuthContext";
 import Login from "../../components/Login/Login";
-import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 function Navbar({ menu, setMenu }) {
-  const { isLoggedIn, signIn, signOut } = useContext(AuthContext);
-  const [showLogin, setShowLogin] = useState(false);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleLoginClick = () => {
-    setShowLogin(true); // Show the Login popup
-  };
-
-  const handleLogoutClick = () => {
-    setShowLogin(false); // Close the Login popup if open
-    signOut();
-  };
-
-  const handleSuccessfulLogin = () => {
-    setShowLogin(false); // Close the Login popup on successful login
-    // Optionally, you can perform additional actions here after login
-    signIn(); // Call signIn from AuthContext or perform other actions
-  };
-
+   //const { isLoggedIn, signIn, signOut } = useContext(AuthContext);
+  // can be replace with current User from AuthContext later
+  const  {currentUser, signIn, signOut} = useAuth();
   const bodyStyle = {
     margin: 0,
     padding: 0,

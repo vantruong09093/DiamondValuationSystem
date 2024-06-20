@@ -27,7 +27,7 @@
       return await createUserWithEmailAndPassword(auth, email, password);
     }
     // Function to sign out
-    const signOutUser = async () => {
+    const signOut = async () => {
       return await signOut(auth);
     };
     const resetPassword = async (email) => {
@@ -54,7 +54,7 @@
       currentUser,
       signIn,
       signInWithGoogle,
-      signOutUser,
+      signOut,
       resetPassword,
       signUp,
     };

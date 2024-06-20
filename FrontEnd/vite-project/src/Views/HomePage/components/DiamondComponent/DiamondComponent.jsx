@@ -7,7 +7,7 @@ const DIAMOND_LIST = [
     id: 1,
     name: "Round Cut",
     carat: 1.0,
-    img: "src/assets/1.avif",
+    img: "src/Views/HomePage/assets/1.avif",
     detail:
       "The round cut diamond, as the name suggests, is cut into a round shape with 58 facets, or flat polished surfaces, that are carefully positioned to maximize the stone's brilliance and fire. These facets are strategically placed to allow light to enter the diamond, reflect off the internal surfaces, and then refract back out, creating a dazzling display of brilliance.",
   },
