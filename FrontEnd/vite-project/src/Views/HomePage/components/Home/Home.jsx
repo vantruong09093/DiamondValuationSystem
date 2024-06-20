@@ -1,10 +1,8 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
+import { useState } from "react";
+
 import Headers from "../../components/Headers/Headers";
 import Navbar from "../../components/Navbar/Navbar";
 import DiamondComponent from "../../components/DiamondComponent/DiamondComponent";
-import Footer from "../../components/Footer/Footer";
 
 function Home() {
   const [category, setCategory] = useState("All");
