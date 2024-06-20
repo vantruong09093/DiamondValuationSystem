@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import { useState, createContext } from "react";
 import styled from "styled-components";
 import DemoPage from "../DemoPage";
 
