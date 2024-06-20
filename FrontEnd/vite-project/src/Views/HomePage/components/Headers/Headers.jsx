@@ -8,7 +8,7 @@ function Header() {
     height: "30vw",
     margin: "103px 40px",
     background:
-      "url('src/assets/1000_F_784587516_qlrZBqw1kT4Mv5bR1JRX6Mmwi8wBD1X6.jpg')",
+      "url('src/Views/HomePage/assets/1000_F_784587516_qlrZBqw1kT4Mv5bR1JRX6Mmwi8wBD1X6.jpg')",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "50% 50%", // Đặt background ở trung tâm
