@@ -1,12 +1,12 @@
 // src/Routes/HomeRoutes.js
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 import Home from "../Views/HomePage/components/Home/Home";
 import Search from "../Views/HomePage/components/Search/Search";
 import Prices from "../Views/HomePage/components/Prices/Prices";
 import Blogs from "../Views/HomePage/components/Blogs/Blogs";
 import Calculate from "../Views/HomePage/components/Calculate/Calculate";
 import DiamondCheck from "../Views/HomePage/components/DiamondCheck/DiamondCheck";
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
 import styles from "../home.module.css";
 const HomeLayout = () => {
   return (
