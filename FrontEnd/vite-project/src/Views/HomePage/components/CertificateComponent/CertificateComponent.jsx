@@ -85,7 +85,7 @@ function CertificateComponent() {
         </div>
         <div>
           <img
-            src="src/assets/z5538479592094_3f36f92a80b77984c14933057cf1d18d.jpg"
+            src="src/Views/HomePage/assets/z5538479592094_3f36f92a80b77984c14933057cf1d18d.jpg"
             style={{
               width: "60%",
               marginTop: "106px",
