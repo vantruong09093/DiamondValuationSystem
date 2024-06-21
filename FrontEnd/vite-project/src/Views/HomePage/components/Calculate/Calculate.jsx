@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import Navbar from "../../components/Navbar/Navbar";
-import CalculateContent from "../CalculateContext/CalculateContent";
+import CalculateContent from "../CalculateContext/CalculateContent1";
 function Calculate() {
   const [menu, setMenu] = useState("calculate");
   const body = {
