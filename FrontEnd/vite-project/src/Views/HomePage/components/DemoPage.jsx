@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "./CalculateContext/CalculateContent";
+import  { useContext } from "react";
+import { UserContext } from "./CalculateContext/CalculateContent1";
 
 const DemoPage = () => {
   const {

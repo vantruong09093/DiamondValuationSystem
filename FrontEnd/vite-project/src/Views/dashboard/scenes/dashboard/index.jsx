@@ -8,14 +8,25 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
-
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
-
+import { useAuth } from "../../../../Context/AuthContext"; 
+import { useNotify } from "../../../../Provider/NotifyProvider";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { notifySuccess} = useNotify();
+  const { signOutUser } = useAuth(); 
+
+  const handleSignOut = async () => {
+    try {
+      await signOutUser();
+      notifySuccess("Successfully logged out");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   return (
     <Box m="20px">
@@ -31,10 +42,23 @@ const Dashboard = () => {
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
+              marginRight: "10px", // Add margin to separate buttons
             }}
           >
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
             Download Reports
+          </Button>
+          <Button
+            sx={{
+              backgroundColor: colors.redAccent[700],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+            }}
+            onClick={handleSignOut}
+          >
+            Sign Out
           </Button>
         </Box>
       </Box>

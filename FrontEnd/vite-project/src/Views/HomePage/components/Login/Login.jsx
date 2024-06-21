@@ -1,35 +1,37 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Assuming you're using react-router for navigation
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useAuth } from "../../../../Context/AuthContext";
-
+import { useNotify } from "../../../../Provider/NotifyProvider";
 function Login() {
+  const { notifySuccess, notifyError} = useNotify();
   const [show, setShow] = useState(false);
   const [currentState, setCurrentState] = useState("Sign In");
-
   const [error, setError] = useState("");
   const { currentUser, signIn, signOutUser, signInWithGoogle, signUp, setLoading, loading } = useAuth();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleClose = () => {
     setShow(false);
     setError("");
   };
+
   const handleShow = () => setShow(true);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
     setError("");
     try {
       if (currentState === "Sign In") {
         await signIn(emailRef.current.value, passwordRef.current.value);
         setLoading(true);
-        handleClose();
+        
       } else if (currentState === "Sign Up") {
         await signUp(emailRef.current.value, passwordRef.current.value);
         setLoading(true);
@@ -41,6 +43,7 @@ function Login() {
       setError(error.message);
     } finally {
       setLoading(false);
+      notifySuccess("Successfully logged in");
     }
   };
 
@@ -63,8 +66,10 @@ function Login() {
     try {
       await signOutUser();
       setCurrentState("Sign In");
+
     } catch (error) {
       setError(error.message);
+      notifyError("Error signing out");
     } finally {
       setLoading(false);
     }
@@ -72,9 +77,21 @@ function Login() {
 
   useEffect(() => {
     if (currentUser) {
-      console.log(currentUser);
+      currentUser.getIdTokenResult(true);
+      currentUser
+        .getIdTokenResult()
+        .then((idTokenResult) => {
+          if (idTokenResult.claims.admin) {
+            navigate("/dashboard"); // Redirect to dashboard if user is admin
+          } else {
+            console.log(idTokenResult.claims);
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking admin claim:", error);
+        });
     }
-  }, [currentUser]); // test
+  }, [currentUser, navigate]);
 
   return (
     <>
