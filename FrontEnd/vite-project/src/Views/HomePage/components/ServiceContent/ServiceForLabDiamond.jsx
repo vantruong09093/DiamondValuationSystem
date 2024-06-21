@@ -39,7 +39,7 @@ const ServiceForLabDiamond = () => {
             <Card className="shadow">
               <Card.Img
                 variant="top"
-                src="src/assets/Natural-Rough-and-Polished-16x9-1.webp"
+                src="src/Views/HomePage/assets/Natural-Rough-and-Polished-16x9-1.webp"
               />
               <Card.Body>
                 <Card.Title className="text-center">
