@@ -4,20 +4,23 @@ import { AuthProvider } from "./Context/AuthContext";
 import DashboardRoutes from "../src/Routes/Dashboard";
 import HomeRoutes from "../src/Routes/Home";
 import Footer from "./Views/HomePage/components/Footer/Footer";
-
+import PrivateRoute from "./Routes/PrivateRoute";
 function App() {
-
   // private route later
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Routes>
-          <Route path="/dashboard/*" element={<DashboardRoutes/>} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard/*" element={<DashboardRoutes />} />
+          </Route>
+
           <Route path="/*" element={<HomeRoutes />} />
         </Routes>
-      </Router>
+      </AuthProvider>
+
       <Footer />
-    </AuthProvider>
+    </Router>
   );
 }
 
