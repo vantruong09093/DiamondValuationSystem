@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState } from "react";
 import Navbar from "../Navbar/Navbar";
 function Education() {
   const [menu, setMenu] = useState("education");

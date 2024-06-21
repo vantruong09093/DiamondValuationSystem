@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../../Context/AuthContext";
 import Login from "../../components/Login/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 function Navbar({ menu, setMenu }) {
    //const { isLoggedIn, signIn, signOut } = useContext(AuthContext);
   // can be replace with current User from AuthContext later
-  const  {currentUser, signIn, signOut} = useAuth();
+
   const bodyStyle = {
     margin: 0,
     padding: 0,
