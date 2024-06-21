@@ -1,14 +1,45 @@
+
 import { Box, Button, TextField } from "@mui/material";
-import { Formik } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import axios from "axios";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { styled } from "@mui/material/styles";
+import { useNotify } from "../../../../Provider/NotifyProvider";
 
-const Form = () => {
+const StyledPhoneInput = styled(PhoneInput)(({ theme }) => ({
+  "& .PhoneInputInput": {
+    width: "100%",
+    padding: "16.5px 14px",
+    borderRadius: "4px",
+    border: `1px solid ${theme.palette.divider}`,
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.text.primary,
+    fontSize: "16px",
+    "&:focus": {
+      borderColor: theme.palette.primary.main,
+      boxShadow: `0 0 0 2px ${theme.palette.primary.light}`,
+    },
+  },
+}));
+
+const FormComponent = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const { notifySuccess, notifyError } = useNotify();
 
-  const handleFormSubmit = (values) => {
-    console.log(values);
+  const handleFormSubmit = async (values, { resetForm }) => {
+    try {
+      const response = await axios.post("http://localhost:3000/admin/users", values);
+      console.log("User created successfully:", response.data);
+      notifySuccess("User created successfully");
+      resetForm();
+    } catch (error) {
+      console.error("Error creating user:", error);
+      notifyError("Error creating user");
+    }
   };
 
   return (
@@ -16,9 +47,9 @@ const Form = () => {
       <Header title="CREATE USER" subtitle="Create a New User Profile" />
 
       <Formik
-        onSubmit={handleFormSubmit}
         initialValues={initialValues}
         validationSchema={checkoutSchema}
+        onSubmit={handleFormSubmit}
       >
         {({
           values,
@@ -27,8 +58,9 @@ const Form = () => {
           handleBlur,
           handleChange,
           handleSubmit,
+          setFieldValue,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
@@ -76,24 +108,27 @@ const Form = () => {
                 helperText={touched.email && errors.email}
                 sx={{ gridColumn: "span 4" }}
               />
+              <Field name="contact">
+                {({ field }) => (
+                  <StyledPhoneInput
+                    {...field}
+                    international
+                    defaultCountry="US"
+                    value={values.contact}
+                    onChange={(value) => setFieldValue("contact", value)}
+                    onBlur={handleBlur}
+                    error={!!touched.contact && !!errors.contact}
+                  />
+                )}
+              </Field>
+              {touched.contact && errors.contact && (
+                <div style={{ color: "red", gridColumn: "span 4" }}>{errors.contact}</div>
+              )}
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Contact Number"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 1"
+                label="Address"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.address1}
@@ -121,15 +156,14 @@ const Form = () => {
                 Create New User
               </Button>
             </Box>
-          </form>
+          </Form>
         )}
       </Formik>
     </Box>
   );
 };
 
-const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+const phoneRegExp = /^\+[1-9]\d{1,14}$/;
 
 const checkoutSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -137,11 +171,12 @@ const checkoutSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
   contact: yup
     .string()
-    .matches(phoneRegExp, "Phone number is not valid")
+    .matches(phoneRegExp, "Phone number is not valid. Must be E.164 compliant.")
     .required("required"),
   address1: yup.string().required("required"),
   address2: yup.string().required("required"),
 });
+
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -151,4 +186,4 @@ const initialValues = {
   address2: "",
 };
 
-export default Form;
+export default FormComponent;
