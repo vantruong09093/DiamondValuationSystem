@@ -17,7 +17,15 @@
     const signIn = async (email, password) => {
       return signInWithEmailAndPassword(auth, email, password);
     };
-
+    const isAdmin = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const token = await user.getIdTokenResult();
+        return token.claims.admin;
+      } else {
+        return false;
+      }
+    }
     // Function to sign in with Google
     const signInWithGoogle = async () => {
       const provider = new GoogleAuthProvider();
@@ -37,8 +45,9 @@
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, async (user) => {
         setCurrentUser(user);
+     
         if (user) {
-          const jwt = await user.getIdToken();
+          const jwt = await user.getIdToken();   user.getIdToken(true);
           localStorage.setItem("token", jwt);
         } else {
           localStorage.removeItem("token");
@@ -58,7 +67,8 @@
       resetPassword,
       signUp,
       setLoading,
-      loading
+      loading,
+      isAdmin,
     };
 
     return (
