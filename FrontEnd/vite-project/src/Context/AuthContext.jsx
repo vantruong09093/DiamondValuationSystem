@@ -57,6 +57,8 @@
       signOutUser,
       resetPassword,
       signUp,
+      setLoading,
+      loading
     };
 
     return (

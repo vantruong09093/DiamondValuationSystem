@@ -1,15 +1,23 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./Context/AuthContext";
-import Login from "./Views/Login";
+
+import DashboardRoutes from "../src/Routes/Dashboard";
+import HomeRoutes from "../src/Routes/Home";
+import Footer from "./Views/HomePage/components/Footer/Footer";
+
 function App() {
+
+  // private route later
   return (
-    <Router>
-      <AuthProvider>
+    <AuthProvider>
+      <Router>
         <Routes>
-          <Route path="/" element={<Login/>}/>
+          <Route path="/dashboard/*" element={<DashboardRoutes/>} />
+          <Route path="/*" element={<HomeRoutes />} />
         </Routes>
-      </AuthProvider>
-    </Router>
+      </Router>
+      <Footer />
+    </AuthProvider>
   );
 }
 
