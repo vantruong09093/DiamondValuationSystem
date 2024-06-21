@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Typography, useTheme, Button, Modal, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -9,6 +9,7 @@ import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNotify } from "../../../../Provider/NotifyProvider";
 
 const Team = () => {
   const theme = useTheme();
@@ -17,19 +18,23 @@ const Team = () => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [users, setUsers] = useState([]);
+  const { notifySuccess, notifyError, notifyFetching } = useNotify(); // Destructure the notification functions
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/users");
+        notifyFetching("Fetching users...", { toastId: "fetching-users" });
+        const response = await axios.get("http://localhost:3000/admin/users");
         setUsers(response.data);
+        notifySuccess("Users loaded successfully!", { toastId: "fetching-users-success" });
       } catch (error) {
+        notifyError("Error fetching users.", { toastId: "fetching-users-error" });
         console.error("Error fetching users:", error);
       }
     };
 
     fetchUsers();
-  }, []);
+  }, [notifyFetching, notifySuccess, notifyError]);
 
   const handleOpenUpdateModal = (row) => {
     setSelectedRow(row);
@@ -53,26 +58,27 @@ const Team = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/users/${selectedRow.id}`);
+      await axios.delete(`http://localhost:3000/admin/users/${selectedRow.id}`);
       setUsers(users.filter(user => user.id !== selectedRow.id));
+      notifySuccess("User deleted successfully!", { toastId: "delete-user-success" });
       handleCloseDeleteDialog();
     } catch (error) {
+      notifyError("Error deleting user.", { toastId: "delete-user-error" });
       console.error("Error deleting user:", error);
     }
   };
 
-
   const handleUpdate = async () => {
     try {
-     
-      await axios.put(`http://localhost:3000/users/${selectedRow.id}`, selectedRow);
+      await axios.put(`http://localhost:3000/admin/users/${selectedRow.id}`, selectedRow);
       setUsers(users.map(user => (user.id === selectedRow.id ? selectedRow : user)));
+      notifySuccess("User updated successfully!", { toastId: "update-user-success" });
       handleCloseUpdateModal();
     } catch (error) {
+      notifyError("Error updating user.", { toastId: "update-user-error" });
       console.error("Error updating user:", error);
     }
   };
-
 
   const columns = [
     { field: "uid", headerName: "ID" },
@@ -98,7 +104,7 @@ const Team = () => {
       flex: 1,
       renderCell: ({ row: { access } }) => {
         return (
-          <Box width="60%" m="0 auto" p="5px" display="flex" justifyContent="center" backgroundColor={access === "admin" ? colors.greenAccent[600] : access === "admin" ? colors.greenAccent[700] : colors.greenAccent[700]} borderRadius="4px">
+          <Box width="60%" m="0 auto" p="5px" display="flex" justifyContent="center" backgroundColor={access === "admin" ? colors.greenAccent[600] : access === "manager" ? colors.greenAccent[700] : colors.greenAccent[700]} borderRadius="4px">
             {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
             {access === "manager" && <SecurityOutlinedIcon />}
             {access === "user" && <LockOpenOutlinedIcon />}
@@ -116,12 +122,16 @@ const Team = () => {
       renderCell: (params) => {
         return (
           <Box display="flex" justifyContent="space-around" width="100%">
-            <Button onClick={() => handleOpenUpdateModal(params.row)}>
-              <EditIcon color="secondary" />
-            </Button>
-            <Button onClick={() => handleOpenDeleteDialog(params.row)}>
-              <DeleteIcon color="secondary" />
-            </Button>
+            {params.row.access !== "admin" && (
+              <>
+                <Button onClick={() => handleOpenUpdateModal(params.row)}>
+                  <EditIcon color="secondary" />
+                </Button>
+                <Button onClick={() => handleOpenDeleteDialog(params.row)}>
+                  <DeleteIcon color="secondary" />
+                </Button>
+              </>
+            )}
           </Box>
         );
       },
