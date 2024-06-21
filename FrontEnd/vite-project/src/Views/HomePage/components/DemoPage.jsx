@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import  { useContext } from "react";
 import { UserContext } from "./CalculateContext/CalculateContent";
 
 const DemoPage = () => {

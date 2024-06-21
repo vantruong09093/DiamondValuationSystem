@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+
 import Navbar from "../Navbar/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
-import ServiceContent from "../../components/ServiceContent/ServiceContent";
+
 
 const PageContainer = styled.div`
   background-color: #f0f4f8;
