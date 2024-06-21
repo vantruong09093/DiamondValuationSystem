@@ -31,11 +31,13 @@ function Login() {
       if (currentState === "Sign In") {
         await signIn(emailRef.current.value, passwordRef.current.value);
         setLoading(true);
+        notifySuccess("Successfully logged in");
         
       } else if (currentState === "Sign Up") {
         await signUp(emailRef.current.value, passwordRef.current.value);
         setLoading(true);
         handleClose();
+        notifySuccess("Successfully logged in");
       } else {
         setError("Error: Something went wrong");
       }
@@ -43,7 +45,7 @@ function Login() {
       setError(error.message);
     } finally {
       setLoading(false);
-      notifySuccess("Successfully logged in");
+
     }
   };
 
