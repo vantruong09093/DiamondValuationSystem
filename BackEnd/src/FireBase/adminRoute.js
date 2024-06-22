@@ -164,4 +164,4 @@ adminRouter.put("/users/:uid", async (req, res) => {
   }
 });
 
-export default adminRouter;
+export { adminRouter, getUsersRecord, getUserRecord, createUserRecord, deleteUserRecord, updateUserRecord, setUserCustomClaim,getUserRecord_ALL };
