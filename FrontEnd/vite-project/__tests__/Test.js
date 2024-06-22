@@ -10,6 +10,8 @@ let testEnv;
 let testData;
 let missingPassword;
 let weakPassword;
+let sameEmail;
+let wrongPassword;
 beforeAll(async () => {
   testEnv = await initializeTestEnvironment({
     projectId: "demo-project-1234",
@@ -19,7 +21,8 @@ beforeAll(async () => {
   missingPassword = JSON.parse(fs.readFileSync(path.resolve(__dirname, "Data/User_Missing_password.json")));
   testData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "Data/User.json")));
   weakPassword = JSON.parse(fs.readFileSync(path.resolve(__dirname, "Data/User_Weak_password.json")));
-  console.log(testData);
+  sameEmail = JSON.parse(fs.readFileSync(path.resolve(__dirname, "Data/Same_Email.json")));
+  wrongPassword = JSON.parse(fs.readFileSync(path.resolve(__dirname, "Data/User_Wrong_password.json")));
 });
 
 afterAll(async () => {
@@ -27,7 +30,7 @@ afterAll(async () => {
 });
 
 describe("Firebase Auth Tests", () => {
-  it("should sign up a user", async () => {
+  it("should sign up users", async () => {
     for (const user of testData) {
       const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
       expect(userCredential.user.email).toBe(user.email);
@@ -35,11 +38,11 @@ describe("Firebase Auth Tests", () => {
   });
 
   it("should not sign up a user with the same email", async () => {
-  
+    
 
-    for (const user of testData) {
+    for (const user of sameEmail) {
       try {
-        await createUserWithEmailAndPassword(auth, user.email, user.password);
+        await createUserWithEmailAndPassword(auth, user.email, user.password);  
       } catch (error) {
         expect(error.code).toBe("auth/email-already-in-use");
       }
@@ -51,7 +54,6 @@ describe("Firebase Auth Tests", () => {
       try {
         await createUserWithEmailAndPassword(auth, user.email, user.password);
       } catch (error) {
-        console.log(user);
         expect(error.code).toBe("auth/missing-password");
       }
     }
@@ -65,23 +67,23 @@ describe("Firebase Auth Tests", () => {
       }
     }
   });
-  it("should sign in a user", async () => {
+  it("should sign in  user", async () => {
     for (const user of testData) {
       const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password);
       expect(userCredential.user.email).toBe(user.email);
     }
   });
   it("should not sign in a user with wrong password", async () => {
-    for (const user of testData) {
+    for (const user of wrongPassword) {
       try {
-        await signInWithEmailAndPassword(auth, user.email, "wrongpassword");
+        await signInWithEmailAndPassword(auth, user.email, user.password);
       } catch (error) {
         expect(error.code).toBe("auth/wrong-password");
       }
     }
   });
   it("should not sign in with the same email", async () => {
-    for (const user of testData) {
+    for (const user of sameEmail) {
       try {
         await signInWithEmailAndPassword(auth, user.email, user.password);
       } catch (error) {

@@ -163,5 +163,4 @@ adminRouter.put("/users/:uid", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
-export { adminRouter, getUsersRecord, getUserRecord, createUserRecord, deleteUserRecord, updateUserRecord, setUserCustomClaim,getUserRecord_ALL };
+export default adminRouter

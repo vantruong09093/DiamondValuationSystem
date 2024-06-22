@@ -15,5 +15,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Project twitter này đang chạy trên post ${port}`);
+
 });

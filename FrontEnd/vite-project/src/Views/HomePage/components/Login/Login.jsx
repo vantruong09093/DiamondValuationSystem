@@ -68,6 +68,7 @@ function Login() {
     try {
       await signOutUser();
       setCurrentState("Sign In");
+      notifySuccess("Susscessfully sign out")
 
     } catch (error) {
       setError(error.message);

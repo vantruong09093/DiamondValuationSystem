@@ -137,19 +137,7 @@ const FormComponent = () => {
                 helperText={touched.address1 && errors.address1}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2}
-                helperText={touched.address2 && errors.address2}
-                sx={{ gridColumn: "span 4" }}
-              />
+      
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
