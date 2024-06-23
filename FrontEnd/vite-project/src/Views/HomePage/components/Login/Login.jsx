@@ -57,6 +57,15 @@ function Login() {
       if (error.code === "auth/invalid-email") {
         setError("Invalid email");
       }
+      if (error.code === "auth/too-many-requests") {
+        setError("Too many requests. Try again later");
+      }
+      if (error.code === "auth/user-disabled") {
+        setError("User account is disabled");
+      }
+      if (error.code === "auth/invalid-credential") {
+        setError("Wrong email or password or account does not exist");
+      }
       else {
         setError(error.message);
       }
