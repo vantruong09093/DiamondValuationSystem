@@ -1,4 +1,3 @@
-
 import { Box, Button, TextField } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
@@ -110,20 +109,21 @@ const FormComponent = () => {
               />
               <Field name="contact">
                 {({ field }) => (
-                  <StyledPhoneInput
-                    {...field}
-                    international
-                    defaultCountry="US"
-                    value={values.contact}
-                    onChange={(value) => setFieldValue("contact", value)}
-                    onBlur={handleBlur}
-                    error={!!touched.contact && !!errors.contact}
-                  />
+                  <>
+                    <StyledPhoneInput
+                      {...field}
+                      international
+                      defaultCountry="US"
+                      value={values.contact}
+                      onChange={(value) => setFieldValue("contact", value)}
+                      onBlur={handleBlur}
+                    />
+                    {touched.contact && errors.contact && (
+                      <div style={{ color: "red", gridColumn: "span 4" }}>{errors.contact}</div>
+                    )}
+                  </>
                 )}
               </Field>
-              {touched.contact && errors.contact && (
-                <div style={{ color: "red", gridColumn: "span 4" }}>{errors.contact}</div>
-              )}
               <TextField
                 fullWidth
                 variant="filled"
@@ -137,7 +137,6 @@ const FormComponent = () => {
                 helperText={touched.address && errors.address}
                 sx={{ gridColumn: "span 4" }}
               />
-      
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
@@ -161,8 +160,7 @@ const checkoutSchema = yup.object().shape({
     .string()
     .matches(phoneRegExp, "Phone number is not valid. Must be E.164 compliant.")
     .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
+  address: yup.string().required("required"),
 });
 
 const initialValues = {
@@ -170,8 +168,7 @@ const initialValues = {
   lastName: "",
   email: "",
   contact: "",
-  address1: "",
-  address2: "",
+  address: "",
 };
 
 export default FormComponent;
