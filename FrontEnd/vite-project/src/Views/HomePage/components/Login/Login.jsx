@@ -42,7 +42,24 @@ function Login() {
         setError("Error: Something went wrong");
       }
     } catch (error) {
-      setError(error.message);
+      if (error.code === "auth/wrong-password") {
+        setError("Invalid password");
+      }
+      if (error.code === "auth/user-not-found") {
+        setError("User not found");
+      }
+      if (error.code === "auth/email-already-in-use") {
+        setError("Email already in use");
+      }
+      if (error.code === "auth/weak-password") {
+        setError("Password is too weak");
+      }
+      if (error.code === "auth/invalid-email") {
+        setError("Invalid email");
+      }
+      else {
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
 
