@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // Assuming you're using react-r
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useAuth } from "../../../../Context/AuthContext";
 import { useNotify } from "../../../../Provider/NotifyProvider";
@@ -39,39 +39,40 @@ function Login() {
         handleClose();
         notifySuccess("Successfully logged in");
       } else {
-        setError("Error: Something went wrong");
+        notifyError("Error: Something went wrong");
       }
     } catch (error) {
       if (error.code === "auth/wrong-password") {
-        setError("Invalid password");
+        notifyError("Invalid password");
       }
       if (error.code === "auth/user-not-found") {
-        setError("User not found");
+        notifyError("User not found");
       }
       if (error.code === "auth/email-already-in-use") {
-        setError("Email already in use");
+        notifyError("Email already in use");
       }
       if (error.code === "auth/weak-password") {
-        setError("Password is too weak");
+        notifyError("Password is too weak");
       }
       if (error.code === "auth/invalid-email") {
-        setError("Invalid email");
+        notifyError("Invalid email");
       }
       if (error.code === "auth/too-many-requests") {
-        setError("Too many requests. Try again later");
+        notifyError("Too many requests. Try again later");
       }
       if (error.code === "auth/user-disabled") {
-        setError("User account is disabled");
+        notifyError("User account is disabled");
       }
       if (error.code === "auth/invalid-credential") {
-        setError("Wrong email or password or account does not exist");
+        notifyError("Wrong email or password or account does not exist");
       }
       else {
-        setError(error.message);
+        notifyError(error.message);
       }
     } finally {
       setLoading(false);
-
+      
+      
     }
   };
 
@@ -214,12 +215,7 @@ function Login() {
             </div>
           </Modal.Body>
           <Modal.Footer className="d-flex align-content-center justify-content-center">
-            {error && (
-              <Alert variant="danger" onClose={() => setError("")} dismissible>
-                <Alert.Heading>Error</Alert.Heading>
-                <p>{error}</p>
-              </Alert>
-            )}
+
             <div
               style={{
                 display: "flex",
