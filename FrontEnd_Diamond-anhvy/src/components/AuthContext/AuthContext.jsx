@@ -1,69 +1,48 @@
-  import auth from "../../../FireBase/config";
-  import { useState, useContext, createContext, useEffect } from "react";
-  import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, sendPasswordResetEmail, createUserWithEmailAndPassword } from "firebase/auth";
+import React, { createContext, useState, useEffect } from "react";
 
+export const AuthContext = createContext();
 
-  const AuthContext = createContext();
+export const AuthProvider = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isRole, setIsRole] = useState("");
+  const [userData, setUserData] = useState(null);
 
+  useEffect(() => {
+    // Check local storage for existing login state
+    const storedLoginStatus = localStorage.getItem("isLoggedIn");
+    const storedUserData = localStorage.getItem("userData");
 
-  export function useAuth() {
-    return useContext(AuthContext);
-  }
-
-  export function AuthProvider({ children }) {
-    const [currentUser, setCurrentUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    const signIn = async (email, password) => {
-      return signInWithEmailAndPassword(auth, email, password);
-    };
-
-    // Function to sign in with Google
-    const signInWithGoogle = async () => {
-      const provider = new GoogleAuthProvider();
-      return await signInWithPopup(auth, provider);
-    };
-    const signUp = async  (email, password) => {
-      return await createUserWithEmailAndPassword(auth, email, password);
+    if (storedLoginStatus === "true" && storedUserData) {
+      // Set state from local storage if user is logged in
+      setIsLoggedIn(true);
+      setUserData(JSON.parse(storedUserData));
+      setIsRole(JSON.parse(storedUserData).role);
     }
-    // Function to sign out
-    const signOutUser = async () => {
-      return await signOut(auth);
-    };
-    const resetPassword = async (email) => {
-      return await sendPasswordResetEmail(auth, email);
-    };
-    // Set up an effect to handle authentication state changes
-    useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, async (user) => {
-        setCurrentUser(user);
-        if (user) {
-          const jwt = await user.getIdToken();
-          localStorage.setItem("token", jwt);
-        } else {
-          localStorage.removeItem("token");
-        }
-        setLoading(false);
-      });
+  }, []);
 
-      return unsubscribe;
-    }, []);
+  const signIn = (user) => {
+    // Set state and save to local storage on successful sign in
+    setIsLoggedIn(true);
+    setIsRole(user.role);
+    setUserData(user);
+  };
 
-    // Provide the authentication state and functions to children components
-    const value = {
-      currentUser,
-      signIn,
-      signInWithGoogle,
-      signOutUser,
-      resetPassword,
-      signUp,
-      setLoading,
-      loading
-    };
+  const signOut = () => {
+    // Clear state and local storage on sign out
+    setIsLoggedIn(false);
+    setIsRole("");
+    setUserData(null);
+  };
 
-    return (
-      <AuthContext.Provider value={value}>
-        {!loading && children}
-      </AuthContext.Provider>
-    );
-  }
+  const updateUser = (updatedData) => {
+    setUserData(updatedData);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{ isLoggedIn, signIn, signOut, isRole, userData, updateUser }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
