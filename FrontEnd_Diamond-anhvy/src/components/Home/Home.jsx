@@ -54,7 +54,6 @@ function Home() {
         <Header isLoggedIn={isLoggedIn && name} />
         <DiamondComponent category={category} setCategory={setCategory} />
       </Body>
-      <Footer />
     </>
   );
 }
