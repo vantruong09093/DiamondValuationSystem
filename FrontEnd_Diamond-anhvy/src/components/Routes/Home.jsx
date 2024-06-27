@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import DiamondComponent from "../../components/DiamondComponent/DiamondComponent";
-import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Headers/Headers";
 import { AuthContext } from "../../components/AuthContext/AuthContext"; // Import the context
 import styled, { keyframes } from "styled-components";
